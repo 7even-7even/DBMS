@@ -1,0 +1,27 @@
+SELECT *
+FROM Batch
+WHERE coursecode = 10;
+
+SELECT batchcode
+FROM Batch
+WHERE expectedincome - netincome > 2000;
+
+SELECT c.coursename, b.startingdate
+FROM Batch b
+JOIN Course c ON b.coursecode = c.coursecode;
+
+SELECT coursename
+FROM Course
+WHERE coursefees > 50000;
+
+SELECT b.*
+FROM Batch b
+JOIN Course c ON b.coursecode = c.coursecode
+WHERE c.coursename = 'specified_coursename';
+
+SELECT COUNT(*)
+FROM Enquiry
+WHERE fname LIKE 'S%';
+
+DELETE FROM Enquiry
+WHERE coursecode = (SELECT coursecode FROM Course WHERE coursename = 'specified_coursename');

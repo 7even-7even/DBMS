@@ -1,0 +1,14 @@
+AFTER UPDATE ON Library
+FOR EACH ROW
+BEGIN
+    INSERT INTO Library_Audit (user_id, Action_Type)
+    VALUES (user(), 'UPDATE');
+END//
+
+CREATE TRIGGER Library_Audit_Delete_Trigger
+AFTER DELETE ON Library
+FOR EACH ROW
+BEGIN
+    INSERT INTO Library_Audit (user_id, Action_Type)
+    VALUES (user(), 'DELETE');
+END//

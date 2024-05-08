@@ -1,0 +1,34 @@
+-- Create Pet table
+CREATE TABLE Pet (
+    pet_name VARCHAR(255) PRIMARY KEY,
+    owner VARCHAR(255),
+    sex CHAR(1),
+    birth_date DATE,
+    death_date DATE
+);
+
+-- Insert sample data
+INSERT INTO Pet (pet_name, owner, sex, birth_date, death_date)
+VALUES 
+    ('Buddy', 'Alice', 'M', '2018-05-10', NULL),
+    ('Max', 'Bob', 'M', '2019-02-15', NULL),
+    ('Molly', 'Alice', 'F', '2017-11-20', '2022-04-01'),
+    ('Lucy', 'Charlie', 'F', '2020-08-25', NULL),
+    ('Bella', 'Alice', 'F', '2015-03-12', NULL);
+
+-- 2) Display all the pets information
+SELECT * FROM Pet;
+
+-- 3) Display all pets in ascending order according to birth date
+SELECT * FROM Pet ORDER BY birth_date ASC;
+
+-- Display all pets in descending order according to birth date
+SELECT * FROM Pet ORDER BY birth_date DESC;
+
+-- 4) Display the pet information of a specific owner
+SELECT * FROM Pet WHERE owner = 'Alice';
+
+-- 5) Count the number of pets with the same birth date
+SELECT birth_date, COUNT(*) AS pet_count
+FROM Pet
+GROUP BY birth_date;

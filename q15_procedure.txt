@@ -1,0 +1,20 @@
+DELIMITER //
+
+CREATE PROCEDURE proc_Grade(IN student_name VARCHAR(100), IN marks INT)
+BEGIN
+    DECLARE grade VARCHAR(50);
+    
+    IF marks >= 990 AND marks <= 1500 THEN
+        SET grade = 'Distinction';
+    ELSEIF marks >= 989 AND marks <= 900 THEN
+        SET grade = 'First Class';
+    ELSEIF marks >= 825 AND marks <= 899 THEN
+        SET grade = 'Higher Second Class';
+    ELSE
+        SET grade = 'Fail';
+    END IF;
+    
+    INSERT INTO Result (Name, Class) VALUES (student_name, grade);
+END//
+
+DELIMITER ;

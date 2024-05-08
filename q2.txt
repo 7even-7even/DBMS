@@ -1,0 +1,90 @@
+-- Create emp table
+CREATE TABLE emp (
+    eno INT PRIMARY KEY,
+    ename VARCHAR(255),
+    bdate DATE,
+    title VARCHAR(255),
+    salary DECIMAL(10,2),
+    dno INT,
+    FOREIGN KEY (dno) REFERENCES dept(dno)
+);
+
+-- Create proj table
+CREATE TABLE proj (
+    pno INT PRIMARY KEY,
+    pname VARCHAR(255),
+    budget DECIMAL(15,2),
+    dno INT,
+    FOREIGN KEY (dno) REFERENCES dept(dno)
+);
+
+-- Create dept table
+CREATE TABLE dept (
+    dno INT PRIMARY KEY,
+    dname VARCHAR(255),
+    mgreno INT,
+    FOREIGN KEY (mgreno) REFERENCES emp(eno)
+);
+
+-- Create workson table
+CREATE TABLE workson (
+    eno INT,
+    pno INT,
+    hours INT,
+    FOREIGN KEY (eno) REFERENCES emp(eno),
+    FOREIGN KEY (pno) REFERENCES proj(pno)
+);
+
+
+INSERT INTO emp (eno, ename, bdate, title, salary, dno) VALUES
+(1, 'John', '1990-01-01', 'EE', 40000.00, 1),
+(2, 'Jane', '1995-02-15', 'SA', 45000.00, 2),
+(3, 'Alice', '1985-07-20', 'Manager', 60000.00, 1),
+(4, 'Bob', '1988-11-30', 'Engineer', 38000.00, 2),
+(5, 'Mike', '1992-04-10', 'EE', 55000.00, 1);
+
+INSERT INTO proj (pno, pname, budget, dno) VALUES
+(101, 'Project A', 120000.00, 1),
+(102, 'Project B', 90000.00, 2),
+(103, 'Project C', 150000.00, 1),
+(104, 'Project D', 80000.00, 2),
+(105, 'Project E', 130000.00, 1);
+
+INSERT INTO dept (dno, dname, mgreno) VALUES
+(1, 'D1', 3),
+(2, 'D2', 3),
+(3, 'D3', NULL);
+
+INSERT INTO workson (eno, pno, hours) VALUES
+(1, 101, 40),
+(2, 102, 35),
+(3, 101, 45),
+(4, 103, 30),
+(5, 104, 40);
+
+
+-- 1) Projects with a budget greater than $100,000
+SELECT pno, pname
+FROM proj
+WHERE budget > 100000;
+
+-- 2) Employees with title 'EE' or 'SA' and salary > $35,000
+SELECT eno, ename
+FROM emp
+WHERE title IN ('EE', 'SA') AND salary > 35000;
+
+-- 3) Employees in department 'D1' ordered by decreasing salary
+SELECT ename
+FROM emp
+WHERE dno = 1
+ORDER BY salary DESC;
+
+-- 4) Departments ordered by ascending department name
+SELECT *
+FROM dept
+ORDER BY dname;
+
+-- 5) Employee name, department name, and employee title
+SELECT e.ename, d.dname, e.title
+FROM emp e
+JOIN dept d ON e.dno = d.dno;

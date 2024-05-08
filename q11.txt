@@ -1,0 +1,21 @@
+CREATE TABLE emp (
+    Emp_id INT PRIMARY KEY,
+    Ename VARCHAR(255),
+    City VARCHAR(255),
+    State VARCHAR(255),
+    Salary DECIMAL(10, 2),
+    Age INT,
+    Hire_date DATE
+);
+
+SELECT Ename
+FROM emp
+WHERE Ename LIKE 'Sa%';
+
+SELECT Ename, Salary
+FROM emp
+WHERE Age < 40;
+
+SELECT *
+FROM emp
+WHERE Salary BETWEEN 20000 AND 30000;

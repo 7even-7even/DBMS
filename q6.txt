@@ -1,0 +1,30 @@
+SELECT cname, MAX(salary) AS max_salary
+FROM Emp_company
+GROUP BY cname;
+
+SELECT MAX(salary) AS max_salary_tata
+FROM Emp_company
+WHERE cname = 'TATA';
+
+SELECT COUNT(*) AS num_employees_acc
+FROM Emp_company
+WHERE cname = 'ACC';
+
+SELECT cname, MAX(salary) AS max_salary
+FROM Emp_company
+GROUP BY cname;
+
+SELECT cname, AVG(salary) AS avg_salary
+FROM Emp_company
+GROUP BY cname;
+
+UPDATE Emp_company
+SET salary = salary * 1.15
+WHERE city = 'Mumbai';
+
+DELETE FROM Emp_company
+WHERE salary < 5000;
+
+SELECT ename
+FROM Emp_company
+WHERE MONTH(joiningdate) = 1 AND YEAR(joiningdate) = 2000;

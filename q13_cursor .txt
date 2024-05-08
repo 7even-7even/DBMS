@@ -1,0 +1,45 @@
+DELIMITER //
+
+CREATE PROCEDURE CalculateGrades()
+BEGIN
+    DECLARE v_student_id INT;
+    DECLARE v_student_name VARCHAR(100);
+    DECLARE v_marks INT;
+    DECLARE v_grade VARCHAR(10);
+    
+    -- Declare handler for cursor
+    DECLARE done INT DEFAULT FALSE;
+    
+    -- Cursor declaration
+    DECLARE grade_cursor CURSOR FOR
+        SELECT student_id, student_name, marks
+        FROM Student;
+    
+    DECLARE CONTINUE HANDLER FOR NOT FOUND
+        SET done = TRUE;
+    
+    OPEN grade_cursor;
+    
+    my_loop: LOOP
+        FETCH grade_cursor INTO v_student_id, v_student_name, v_marks;
+        IF done THEN
+            LEAVE my_loop;
+        END IF;
+        
+        -- Calculate grades based on marks
+        IF v_marks >= 90 THEN
+            SET v_grade = 'A';
+        ELSEIF v_marks >= 80 THEN
+            SET v_grade = 'B';
+        ELSEIF v_marks >= 70 THEN
+            SET v_grade = 'C';
+        ELSE
+            SET v_grade = 'D';
+        END IF;
+        
+        -- Display student details and grade
+        SELECT CONCAT('Student ID: ', v_student_id, ', Name: ', v_student_name, ', Grade: ', v_grade);
+    END LOOP my_loop;
+    
+    CLOSE grade_cursor;
+END //

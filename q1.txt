@@ -1,0 +1,85 @@
+-- Create emp table
+CREATE TABLE emp (
+    eno INT PRIMARY KEY,
+    ename VARCHAR(255),
+    bdate DATE,
+    title VARCHAR(255),
+    salary DECIMAL(10,2),
+    dno INT,
+    FOREIGN KEY (dno) REFERENCES dept(dno)
+);
+
+-- Create proj table
+CREATE TABLE proj (
+    pno INT PRIMARY KEY,
+    pname VARCHAR(255),
+    budget DECIMAL(15,2),
+    dno INT,
+    FOREIGN KEY (dno) REFERENCES dept(dno)
+);
+
+-- Create dept table
+CREATE TABLE dept (
+    dno INT PRIMARY KEY,
+    dname VARCHAR(255),
+    mgreno INT,
+    FOREIGN KEY (mgreno) REFERENCES emp(eno)
+);
+
+-- Create workson table
+CREATE TABLE workson (
+    eno INT,
+    pno INT,
+    hours INT,
+    FOREIGN KEY (eno) REFERENCES emp(eno),
+    FOREIGN KEY (pno) REFERENCES proj(pno)
+);
+INSERT INTO emp (eno, ename, bdate, title, salary, dno) VALUES
+(1, 'John', '1990-01-01', 'Engineer', 40000.00, 1),
+(2, 'Jane', '1995-02-15', 'Analyst', 45000.00, 2),
+(3, 'Alice', '1985-07-20', 'Manager', 60000.00, 1),
+(4, 'Bob', '1988-11-30', 'Consultant', 38000.00, 2),
+(5, 'Mike', '1992-04-10', 'Engineer', 55000.00, 1);
+
+INSERT INTO proj (pno, pname, budget, dno) VALUES
+(101, 'Project A', 120000.00, 1),
+(102, 'Project B', 90000.00, 2),
+(103, 'Project C', 150000.00, 1),
+(104, 'Project D', 80000.00, 2),
+(105, 'Project E', 130000.00, 1);
+
+INSERT INTO dept (dno, dname, mgreno) VALUES
+(1, 'Engineering', 3),
+(2, 'Consulting', 3),
+(3, 'Management', NULL);
+
+INSERT INTO workson (eno, pno, hours) VALUES
+(1, 101, 40),
+(2, 102, 35),
+(3, 101, 45),
+(4, 103, 30),
+(5, 104, 40);
+
+-- 1) Project name, hours worked, and project number for all works on records where hours > 10
+SELECT proj.pname, workson.hours, workson.pno
+FROM workson
+JOIN proj ON workson.pno = proj.pno
+WHERE workson.hours > 10;
+
+-- 2) Project name, department name, and budget for all projects with a budget < $50,000
+SELECT proj.pname, dept.dname, proj.budget
+FROM proj
+JOIN dept ON proj.dno = dept.dno
+WHERE proj.budget < 50000;
+
+-- 3) Employee numbers and salaries of all employees in the 'Consulting' department ordered by descending salary
+SELECT eno, salary
+FROM emp
+WHERE dno IN (SELECT dno FROM dept WHERE dname = 'Consulting')
+ORDER BY salary DESC;
+
+-- 4) Employee name, project name, employee title, and hours for all works on records
+SELECT emp.ename, proj.pname, emp.title, workson.hours
+FROM workson
+JOIN emp ON workson.eno = emp.eno
+JOIN proj ON workson.pno = proj.pno;

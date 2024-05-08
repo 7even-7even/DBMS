@@ -1,0 +1,22 @@
+SELECT *
+FROM Borrow;
+
+SELECT DISTINCT d.cname
+FROM Deposit d
+WHERE d.amount > 1000 AND d.cname LIKE 'A%';
+
+SELECT cname, amount
+FROM Deposit
+ORDER BY amount DESC;
+
+SELECT SUM(amount) AS total_loan
+FROM Borrow;
+
+SELECT d.bname AS branchname, SUM(d.amount) AS total_deposit
+FROM Deposit d
+GROUP BY d.bname;
+
+SELECT d.bname AS branchname, SUM(d.amount) AS total_deposit
+FROM Deposit d
+GROUP BY d.bname
+HAVING SUM(d.amount) > 4000;

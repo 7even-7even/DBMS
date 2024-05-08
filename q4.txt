@@ -1,0 +1,47 @@
+-- Create BOOK table
+CREATE TABLE BOOK (
+    Book_ISBN INT PRIMARY KEY,
+    Title VARCHAR(255) NOT NULL,
+    Publisher_Name VARCHAR(255),
+    Price DECIMAL(10,2) CHECK (Price > 0),
+    Date_Of_Publication DATE DEFAULT CURRENT_DATE(),
+    Book_Copy INT
+);
+
+-- Create BOOK_AUTHORS table
+CREATE TABLE BOOK_AUTHORS (
+    Book_ISBN INT,
+    Author_Name VARCHAR(255) PRIMARY KEY,
+    Author_City VARCHAR(255) DEFAULT 'Pune',
+    Phone VARCHAR(20) UNIQUE,
+    CONSTRAINT fk_book FOREIGN KEY (Book_ISBN) REFERENCES BOOK(Book_ISBN)
+);
+
+-- Insert records into BOOK table
+INSERT INTO BOOK (Book_ISBN, Title, Publisher_Name, Price, Book_Copy)
+VALUES
+    (1, 'Book 1', 'Publisher 1', 10.99, 100),
+    (2, 'Book 2', 'Publisher 2', 15.99, 150),
+    (3, 'Book 3', 'Publisher 3', 20.99, 200),
+    (4, 'Book 4', 'Publisher 4', 25.99, 250),
+    (5, 'Book 5', 'Publisher 5', 30.99, 300);
+
+-- Insert records into BOOK_AUTHORS table
+INSERT INTO BOOK_AUTHORS (Book_ISBN, Author_Name, Phone)
+VALUES
+    (1, 'Author 1', '1234567890'),
+    (2, 'Author 2', '2345678901'),
+    (3, 'Author 3', '3456789012'),
+    (4, 'Author 4', '4567890123'),
+    (5, 'Author 5', '5678901234');
+
+
+ALTER TABLE BOOK_AUTHORS
+ADD COLUMN Author_Email VARCHAR(255);
+
+CREATE VIEW DBMS_BOOKS AS
+SELECT *
+FROM BOOK
+WHERE Title LIKE '%DBMS%';
+
+DROP VIEW DBMS_BOOKS;

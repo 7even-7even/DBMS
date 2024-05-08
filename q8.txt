@@ -1,0 +1,32 @@
+SELECT *
+FROM Borrow;
+
+SELECT DISTINCT d.cname
+FROM Deposit d
+WHERE d.amount > 1000 AND d.cname LIKE 'A%';
+
+SELECT d.bname AS branchname, SUM(d.amount) AS total_deposit
+FROM Deposit d
+JOIN Branch b ON d.bname = b.bname
+WHERE b.city = 'Mumbai'
+GROUP BY d.bname
+HAVING SUM(d.amount) > 1000;
+
+UPDATE Deposit
+SET amount = amount * 1.1
+WHERE cname IN (SELECT cname FROM Customer WHERE city = 'Pune');
+
+UPDATE Deposit
+SET amount = amount - 500
+WHERE cname = 'Anil';
+UPDATE Deposit
+SET amount = amount + 500
+WHERE cname = 'Sunil';
+
+DELETE FROM Deposit
+WHERE amount < 500;
+
+
+
+
+

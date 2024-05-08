@@ -1,0 +1,55 @@
+-- Create Customer table
+CREATE TABLE Customer (
+    Cust_no INT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    Street VARCHAR(255),
+    city VARCHAR(255),
+    state VARCHAR(255)
+);
+
+-- Create Order table
+CREATE TABLE Order (
+    Order_no INT PRIMARY KEY,
+    Cust_no INT NOT NULL,
+    Order_date DATE,
+    Ship_date DATE,
+    Tocity VARCHAR(255),
+    ToState VARCHAR(255),
+    ToZip VARCHAR(255),
+    FOREIGN KEY (Cust_no) REFERENCES Customer(Cust_no)
+);
+
+-- Create Contains table
+CREATE TABLE Contains (
+    Order_no INT,
+    Stock_no INT,
+    quantity INT,
+    Discount DECIMAL(10,2),
+    PRIMARY KEY (Order_no, Stock_no),
+    FOREIGN KEY (Order_no) REFERENCES Order(Order_no),
+    FOREIGN KEY (Stock_no) REFERENCES Stock(Stock_no)
+);
+
+-- Create Stock table
+CREATE TABLE Stock (
+    Stock_no INT PRIMARY KEY,
+    price DECIMAL(10,2),
+    tax DECIMAL(5,2)
+);
+
+-- Create View on columns Order_no and Cust_no with Order table
+CREATE VIEW Order_Customer_View AS
+SELECT Order_no, Cust_no
+FROM Order;
+
+-- Display Name of customer, City, OrderNo, and order date of customer_no 101
+SELECT c.name, c.city, o.Order_no, o.Order_date
+FROM Customer c
+JOIN Order o ON c.Cust_no = o.Cust_no
+WHERE c.Cust_no = 101;
+
+-- Display price and discount of stock_no 102
+SELECT price, Discount
+FROM Stock
+JOIN Contains ON Stock.Stock_no = Contains.Stock_no
+WHERE Contains.Stock_no = 102;
